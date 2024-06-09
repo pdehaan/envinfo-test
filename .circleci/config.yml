@@ -24,7 +24,7 @@ jobs:
             mkdir /tmp/artifacts
             npm ci
             npm run playwright-install
-            npm run envinfo > /tmp/artifacts/envinfo.txt
+            npm run envinfo -- --browsers --json --showNotFound --system --binaries > /tmp/artifacts/envinfo.json
       - store_artifacts:
           path: /tmp/artifacts
 
