@@ -11,7 +11,7 @@ jobs:
     docker:
       # Specify the version you desire here
       # See: https://circleci.com/developer/images/image/cimg/base
-      - image: image: cimg/node:22.2.0
+      - image: cimg/node:22.2.0
 
     # Add steps to the job
     # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
@@ -20,7 +20,13 @@ jobs:
       - checkout
       - run:
           name: "Say hello"
-          command: "npm run envinfo"
+          command: |
+            mkdir /tmp/artifacts
+            npm ci
+            npm run playwright-install
+            npm run envinfo -- --browsers --json --showNotFound --system --binaries > /tmp/artifacts/envinfo.json
+      - store_artifacts:
+          path: /tmp/artifacts
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
